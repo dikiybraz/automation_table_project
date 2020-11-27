@@ -4,18 +4,18 @@ class table:
 
     def turn_ccw(self):
         print('Table was turned ccw')
-
-
-
     pass
 
 class piezo_motor_x: #поворот столика по часовой стрелке
+
+
     def __init__(self):
         self.x=0
     def turn_cw(self):
         self.x+=1
     def turn_ccw(self):
         self.x-=1
+
     pass
 class piezo_motor_y: #поворот столика против часовой стрелки
     def __init__(self):
@@ -42,7 +42,10 @@ class optic_power_meter:
 
     pass
 
-class visualization: #иллюстрация активности
+class visualization: #иллюстрация активности (графики и тд)
     pass
-class light_intensivity:
+class light_intensivity: #
+    pass
+
+class connect to program:# протокол управления установкой программой
     pass
