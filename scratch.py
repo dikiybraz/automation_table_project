@@ -31,6 +31,8 @@ class chip():
 
     pass
 
+#comment
+
 class optic_power_meter:
 
     def __init__(self):
