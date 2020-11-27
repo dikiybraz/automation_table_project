@@ -41,7 +41,7 @@ class optic_power_meter:
         pass
 
     pass
-#class connected_chip: pass
+
 class visualization: #иллюстрация активности
     pass
 class light_intensivity:
