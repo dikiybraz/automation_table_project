@@ -1,3 +1,4 @@
+
 class table:
     def turn_cw(self):
         print('Table was turned cw')
@@ -6,7 +7,7 @@ class table:
         print('Table was turned ccw')
     pass
 
-class piezo_motor_x: #поворот столика по часовой стрелке
+class PiezoMotor: #поворот столика по часовой стрелке
 
 
     def __init__(self):
@@ -17,21 +18,20 @@ class piezo_motor_x: #поворот столика по часовой стре
         self.x-=1
 
     pass
-class piezo_motor_y: #поворот столика против часовой стрелки
-    def __init__(self):
-        self.y=0
-    def turn_cw(self):
-        self.y+=1
-    def turn_ccw(self):
-        self.y-=1
-class chip():
+class chip(): # модель "структуры"(характеристики) чипа: площадь, минимальная оптическая мощность, количество максимумов
+    # максимумы, их расположение на площади)
+    area=100 #площадь
 
-    def progressbar(self):
+    def __init__(self):
+        self.first_max=chip()
+        self.second_max=chip()
+        self.third_max=chip()
+        pass
+
+    def __init__(self):
         pass
 
     pass
-
-
 
 class optic_power_meter:
 
@@ -49,5 +49,6 @@ class visualization: #иллюстрация активности (график�
 class light_intensivity: #
     pass
 
-class connect to program:# протокол управления установкой программой
+class connecttoprogram:# протокол управления установкой программой
     pass
+
