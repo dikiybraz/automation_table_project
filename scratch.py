@@ -1,54 +1,101 @@
+import numpy as np
 
-class table:
+int(vvod)
+
+# noinspection PyTypeChecker
+class Search:  # поиск максимального элемента массива
+    def __init__(self, i , j, shag):
+        i = 0
+        j = 0
+        shag = 0
+
+    def poisk(self):
+        maximum =
+
+        shag = 0
+        if shag <= self.vvod.step:
+            for i in range(self.np.array):
+                for j in range(self.np.array):
+                    if np.array[i][j] > maximum:
+                        maximum = np.array[i][j]
+
+                else:
+                    break
+
+        i, j = np.where(np.array[i][j] == maximum)
+
+        return print(maximum, '[', i, ']', '[', j, ']')
+
+    pass
+
+class PiezoMotor:  # поворот столика по часовой стрелке
+
+    def __init__(self):
+        self.x = 0
+
+    def turn_cw(self):
+        self.x += 1
+        return self.x
+
+    def turn_ccw(self):
+        self.x -= 1
+        return self.x
+
+    pass
+
+class chip:  # структура чипа
+    a = np.array([[1, 2, 4, 3, 2],
+                  [2, 3, 6, 7, 3],
+                  [2, 4, 6, 9, 9],
+                  [5, 4, 5, 3, 2],
+                  [1, 4, 5, 4, 3]])
+    b = np.array([[2, 4, 14, 3, 2],
+                  [5, 6, 11, 7, 8],
+                  [11, 8, 6, 9, 1],
+                  [12, 8, 5, 1, 2],
+                  [10, 9, 5, 4, 3]])
+    c = np.array([[1, 2, 4, 3, 2],
+                  [2, 3, 6, 7, 3],
+                  [2, 4, 6, 9, 9],
+                  [5, 4, 5, 3, 2],
+                  [1, 4, 5, 4, 3]])
+    pass
+
+class light_intensivity:  # формулы и тд
+    k = 14
+    pass
+class Location:  # актуальное местоположение цели
+       def location_update(self,loc):
+           self.loc
+           print(loc)
+    pass
+class Table:
     def turn_cw(self):
         print('Table was turned cw')
 
     def turn_ccw(self):
         print('Table was turned ccw')
-    pass
-
-class PiezoMotor: #поворот столика по часовой стрелке
-
-
-    def __init__(self):
-        self.x=0
-    def turn_cw(self):
-        self.x+=1
-    def turn_ccw(self):
-        self.x-=1
-
-    pass
-class chip(): # модель "структуры"(характеристики) чипа: площадь, минимальная оптическая мощность, количество максимумов
-    # максимумы, их расположение на площади)
-    area=100 #площадь
-
-    def __init__(self):
-        self.first_max=chip()
-        self.second_max=chip()
-        self.third_max=chip()
-        pass
-
-    def __init__(self):
-        pass
 
     pass
 
-class optic_power_meter:
+# me = Location() #поиск местоположения по введенной координате), но пока что используются две строчки ниже
+pz_x:int = input()
+pz_y:int = input()
+pz_x = PiezoMotor()
+pz_y = PiezoMotor()
 
-    def __init__(self):
-        self.meter=0
-    def progressbar(self):
-        for self.meter in 100:
-            self.meter+=1
-        pass
+if pz_x > 0:
+    pz_x = PiezoMotor.turn_cw() * vvod
+else:
+    pz_x = PiezoMotor.turn_ccw() * vvod
 
-    pass
+if pz_y > 0:
+    pz_y = PiezoMotor.turn_cw() * vvod
+else:
+    pz_y = PiezoMotor.turn_ccw() * vvod
 
-class visualization: #иллюстрация активности (графики и тд)
-    pass
-class light_intensivity: #
-    pass
-
-class connecttoprogram:# протокол управления установкой программой
-    pass
+kapler = chip.a  # выбираем один из лобъектов чипа: a,b,c
+N = np.size(kapler)
+print(kapler)
+Search.poisk(kapler)
 
