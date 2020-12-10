@@ -22,7 +22,30 @@ i, j = np.where(S == maximum)  # нахождение координаты ма�
 print('Координаты', i, j, '\n', 'Оптическая мощность = ', maximum*lpi)
 
 
+class Search:  # поиск максимального элемента массива
+    def __init__(self, i , j, shag):
+        i = 0
+        j = 0
+        shag = 0
 
+    def poisk(self):
+        maximum = 0
+
+        shag = 0
+        if shag <= self.vvod.step:
+            for i in range(self.np.array):
+                for j in range(self.np.array):
+                    if np.array[i][j] > maximum:
+                        maximum = np.array[i][j]
+
+                else:
+                    break
+
+        i, j = np.where(np.array[i][j] == maximum)
+
+        return print(maximum, '[', i, ']', '[', j, ']')
+
+    pass
 
 
 

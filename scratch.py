@@ -3,30 +3,7 @@ import numpy as np
 int(vvod)
 
 # noinspection PyTypeChecker
-class Search:  # поиск максимального элемента массива
-    def __init__(self, i , j, shag):
-        i = 0
-        j = 0
-        shag = 0
 
-    def poisk(self):
-        maximum =
-
-        shag = 0
-        if shag <= self.vvod.step:
-            for i in range(self.np.array):
-                for j in range(self.np.array):
-                    if np.array[i][j] > maximum:
-                        maximum = np.array[i][j]
-
-                else:
-                    break
-
-        i, j = np.where(np.array[i][j] == maximum)
-
-        return print(maximum, '[', i, ']', '[', j, ']')
-
-    pass
 
 class PiezoMotor:  # поворот столика по часовой стрелке
 
@@ -59,6 +36,9 @@ class chip:  # структура чипа
                   [2, 4, 6, 9, 9],
                   [5, 4, 5, 3, 2],
                   [1, 4, 5, 4, 3]])
+    pass
+
+class element:
     pass
 
 class light_intensivity:  # формулы и тд
@@ -97,5 +77,5 @@ else:
 kapler = chip.a  # выбираем один из лобъектов чипа: a,b,c
 N = np.size(kapler)
 print(kapler)
-Search.poisk(kapler)
+Search.poisk(kapler) #
 
