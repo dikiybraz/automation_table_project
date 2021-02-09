@@ -17,15 +17,21 @@ class Experimental_Setup:
 
 
 class Table:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, motor_x, motor_y):
+        self.motor_x = motor_x
+        self.motor_y = motor_y
 
-    def move(self, dx, dy):
-        # шаг шарико-винтовой передачи Ph =1 [мм], среднее минимальное линейное перемещение l (х и y) можно определить по формуле
-        dx = (0.1 * self.chip.rotate(self.mock_motor)) / (2 * 3.14)
-        dy = (0.1 * self.chip.rotate(self.chip)) / (2 * 3.14)
-        return dx, dy
+    def move(self, x, y):
+        # шаг шарико-винтовой передачи Ph =1 [мм], среднее минимальное линейное перемещение l (х и y) можно
+        # определить по формуле
+
+        dx = (0.1 * self.motor_x.rotate(self.motor_x.angle)) / (2 * 3.14)
+        dy = (0.1 * self.motor_y.rotate(self.motor_y.angle)) / (2 * 3.14)
+
+        x = x + dx
+        y = y + dy
+
+        return [x, y]
 
     def get_coords(self):
         # ???
@@ -39,8 +45,8 @@ class MockMotor:
         self.angle = angle
 
     def rotate(self, angle):
-        self.angle += 1
-        return self.angle
+        angle = angle + 0.01
+        return angle
 
 
 class Environment:
@@ -49,7 +55,7 @@ class Environment:
         self.chip = chip
 
     def move(self, dx, dy):
-        self.table.move(dx, dy)
+        return self.table.move(dx, dy)
 
     def measure(self):
         return self.chip.value(self.table.x, self.table.y)
@@ -73,17 +79,28 @@ arr = np.array([[0, 3, 4, 0, 2],
                 [0, 4, 5, 0, 2],
                 [1, 0, 5, 4, 3]])
 # массив 5х5 - плоскость с разными оптическими мощностями
-
-
-motor_x = 0
-motor_y = 1
-
+motor_x = MockMotor(0)
+motor_y = MockMotor(1)
 chip = Chip(arr)
 table = Table(motor_x, motor_y)
 env = Environment(table, chip)
 ex_setup = Experimental_Setup(table, env)
 
-# print(chip.screen())
-print(ex_setup.measure())
+# проверка класс environment
+# print(ex_setup.measure())  #done
+# print(ex_setup.move_table())
 
-#print(chip.value(1, 3))
+# проверка класс environment
+# print(env.move(4, 3)) # Done
+# print(env.measure())
+
+# проверка класса Table
+# print(table.move(2, 1)) # done
+
+# проверка класса чип
+# print(chip.value(1, 3)) # done
+# print(chip.screen()) # done
+
+# проверка класса мотор
+# print(motor_x.rotate(0.11)) # done
+
