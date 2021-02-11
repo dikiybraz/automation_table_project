@@ -13,6 +13,7 @@ class Experimental_Setup:
     def measure(self):
         return self.env.measure()
 
+
 class Environment:
     def __init__(self, table, chip):
         self.table = table
@@ -37,7 +38,6 @@ class Table:
         self.y += dy
 
 
-
 class MockMotor:
     def __init__(self, angle):
         self.angle = angle
@@ -46,27 +46,31 @@ class MockMotor:
         return self.angle + 1
 
 class Chip:
-    def __init__(self, chip_array):
-        self.chip_array = chip_array
+    def __init__(self, filename):
+        self.chip_array = self.read_from_file(filename)
 
-    def screen(self):
-        return self.chip_array
+    def read_from_file(self, filename):
+        filename = open(str(filename)+'.txt', 'r')
+        lines = filename.readlines()
+        lines = [filename.strip('\n') for filename in lines]
+        print(lines)
+        filename.close()
+        return filename
 
     # realization
     def value(self, x, y):
         return self.chip_array[x, y]
 
-
-arr = np.array([])
 # массив 5х5 - плоскость с разными оптическими мощностями
 
 motor_x = MockMotor(3)
 motor_y = MockMotor(4)
-chip = Chip(arr)
+chip = Chip('file')
 table = Table(motor_x, motor_y, 1, 1)
 env = Environment(table, chip)
 ex_setup = Experimental_Setup(table, env)
 
-print(ex_setup.measure())
-print(ex_setup.move_table(1, 1))
-print(ex_setup.measure())
+print(chip.read_from_file('file'))
+# print(ex_setup.measure())
+# print(ex_setup.move_table(1, 1))
+# print(ex_setup.measure())
