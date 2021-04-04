@@ -1,7 +1,10 @@
 from numpy.ma import sqrt
 from math import acos
 from math import radians
+import os
 import numpy as np
+
+
 class Experimental_Setup:
     def __init__(self, table, env):
         self.table = table
@@ -27,7 +30,7 @@ class Environment:
 
 
 class Table:
-    def __init__(self, motor_x, motor_y , x , y):
+    def __init__(self, motor_x, motor_y, x, y):
         self.motor_x = motor_x
         self.motor_y = motor_y
         self.x = x
@@ -45,32 +48,74 @@ class MockMotor:
     def rotate(self):
         return self.angle + 1
 
+
 class Chip:
     def __init__(self, filename):
-        self.chip_array = self.read_from_file(filename)
+        self.array = self.read_from_file(filename)
 
     def read_from_file(self, filename):
-        filename = open(str(filename)+'.txt', 'r')
-        lines = filename.readlines()
-        lines = [filename.strip('\n') for filename in lines]
-        print(lines)
-        filename.close()
-        return filename
+        file = open(str(filename) + '.txt', 'r')
+        lines = file.readlines()
+        rows = []
 
-    # realization
+        for line in lines:
+            columns = []
+            for value in line.split():
+                columns.append(float(value))
+            rows.append(columns)
+
+        file.close()
+        return rows
+
     def value(self, x, y):
-        return self.chip_array[x, y]
+        return self.array[y][x]
 
-# массив 5х5 - плоскость с разными оптическими мощностями
 
-motor_x = MockMotor(3)
-motor_y = MockMotor(4)
-chip = Chip('file')
-table = Table(motor_x, motor_y, 1, 1)
+class Max:
+    def __init__(self, Experimental_Setup, Chip):
+        self.Experimental_Setup = Experimental_Setup
+        self.Chip = Chip
+
+
+    def find(self):
+        i = 1  # счетчик
+
+        new_file = open('check_values.txt', 'w')
+        for value in self.Chip.array:
+            if i < 30:
+                new_file.write(str(self.Experimental_Setup.measure()) + ' ')
+                self.Experimental_Setup.move_table(1, 0)
+                i = i + 1
+
+            if i == 30:
+                i = 1
+                new_file.write(str(self.Experimental_Setup.measure())+' \n')
+                self.Experimental_Setup.move_table(-30, 1)
+                #new_file.__next__()
+                self.Chip.array.next()
+        new_file.close()
+
+        return new_file
+
+# массив - плоскость с разными оптическими мощностями
+motor_x = MockMotor(0)
+motor_y = MockMotor(0)
+chip = Chip('Coupler_Simulation_data')
+table = Table(motor_x, motor_y, 0, 0)
 env = Environment(table, chip)
 ex_setup = Experimental_Setup(table, env)
 
-print(chip.read_from_file('file'))
+# print(chip.value(7,5))
 # print(ex_setup.measure())
-# print(ex_setup.move_table(1, 1))
+
+#print(chip.array)
+
+# ex_setup.move_table(10, 10)
 # print(ex_setup.measure())
+# print(ex_setup.move_table(6, 4))
+# print(ex_setup.measure())
+# print(ex_setup.move_table(-6, -4))
+# print(ex_setup.measure())
+
+a = Max(ex_setup, chip)
+print(a.find())
