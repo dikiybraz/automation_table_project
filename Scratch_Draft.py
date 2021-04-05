@@ -76,23 +76,20 @@ class Max:
         self.Experimental_Setup = Experimental_Setup
         self.Chip = Chip
 
-
     def find(self):
         i = 1  # счетчик
+        j = 1
 
-        new_file = open('check_values.txt', 'w')
+        new_file = open('check_values.txt', 'w+')
         for value in self.Chip.array:
-            if i < 30:
+            while i < 30:
                 new_file.write(str(self.Experimental_Setup.measure()) + ' ')
                 self.Experimental_Setup.move_table(1, 0)
                 i = i + 1
 
-            if i == 30:
-                i = 1
-                new_file.write(str(self.Experimental_Setup.measure())+' \n')
-                self.Experimental_Setup.move_table(-30, 1)
-                #new_file.__next__()
-                self.Chip.array.next()
+            new_file.write(str(self.Experimental_Setup.move_table(-29, 1)) + '\n')
+            i = 1
+
         new_file.close()
 
         return new_file
