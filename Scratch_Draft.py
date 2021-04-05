@@ -77,7 +77,7 @@ class Max:
         self.Chip = Chip
 
     def find(self):
-        i = 1  # счетчик
+        i = 0  # счетчик
         j = 1
 
         new_file = open('check_values.txt', 'w+')
@@ -86,8 +86,8 @@ class Max:
                 new_file.write(str(self.Experimental_Setup.measure()) + ' ')
                 self.Experimental_Setup.move_table(1, 0)
                 i = i + 1
-
-            new_file.write(str(self.Experimental_Setup.move_table(-29, 1)) + '\n')
+            self.Experimental_Setup.move_table(-29, 1)
+            new_file.write('\n')
             i = 1
 
         new_file.close()
