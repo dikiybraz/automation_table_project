@@ -1,0 +1,26 @@
+Class Max: #file reprinting
+
+class Max:
+    def __init__(self, Experimental_Setup, Chip):
+        self.Experimental_Setup = Experimental_Setup
+        self.Chip = Chip
+
+    def find(self):
+        i = 0  # счетчик
+        arr = []
+
+        new_file = open('check_values.txt', 'w+')
+        for value in self.Chip.array:
+            while i < 30:
+                new_file.write(str(self.Experimental_Setup.measure()) + ' ')
+                # if arr[i] > arr[mx]:
+                # mx = i
+                self.Experimental_Setup.move_table(1, 0)
+                i = i + 1
+            self.Experimental_Setup.move_table(-29, 1)
+            new_file.write('\n')
+            i = 1
+
+        new_file.close()
+
+        return new_file

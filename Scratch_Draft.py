@@ -78,18 +78,24 @@ class Max:
 
     def find(self):
         i = 0  # счетчик
-        j = 1
+        arr = []
+        max = 0
 
         new_file = open('check_values.txt', 'w+')
+
         for value in self.Chip.array:
-            while i < 30:
-                new_file.write(str(self.Experimental_Setup.measure()) + ' ')
+            i = 0
+            for i in range(29):
+                current_value = float(self.Experimental_Setup.measure())
                 self.Experimental_Setup.move_table(1, 0)
-                i = i + 1
+                if current_value > max:
+                    max = current_value
+                    # print(max)
+
             self.Experimental_Setup.move_table(-29, 1)
             new_file.write('\n')
-            i = 1
 
+        print(max)
         new_file.close()
 
         return new_file
