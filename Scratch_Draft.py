@@ -1,3 +1,4 @@
+import self as self
 from numpy.ma import sqrt
 from math import acos
 from math import radians
@@ -71,48 +72,102 @@ class Chip:
         return self.array[y][x]
 
 
+# class check_plato:
+#     def __init__(self, Experimental_Setup, a, b):
+#         self.Experimental_Setup = Experimental_Setup
+#         self.a = a
+#         self.b = b
+#         pass
+#
+#     def check(self, a, b):
+#         if self.a == self.b:
+#             self.Experimental_Setup.table.move_table(3, 4)
+#         else:
+#             pass
+
+
 class Max:
     def __init__(self, Experimental_Setup, Chip):
         self.Experimental_Setup = Experimental_Setup
         self.Chip = Chip
 
+    # def f(self, x, y):
+    #     return self.Experimental_Setup.table.x * self.Experimental_Setup.table.x + self.Experimental_Setup.table.y * self.Experimental_Setup.table.y
+    #
+    # def df_x(self, x):
+    #     return round(0.05 * self.Experimental_Setup.table.x)
+    #
+    # def df_y(self, y):
+    #     return round(0.01 * self.Experimental_Setup.table.y)
+
     def find(self):
         i = 0  # счетчик
-        arr = []
-        max = 0
 
-        new_file = open('check_values.txt', 'w+')
+        # new_file = open('check_values.txt', 'w+')
+        c = 1
+        d = 1
+        max = float(self.Experimental_Setup.measure())
 
-        for value in self.Chip.array:
-            i = 0
-            for i in range(29):
-                current_value = float(self.Experimental_Setup.measure())
-                self.Experimental_Setup.move_table(1, 0)
-                if current_value > max:
-                    max = current_value
-                    # print(max)
+        while True:
 
-            self.Experimental_Setup.move_table(-29, 1)
-            new_file.write('\n')
+            current_value = float(self.Experimental_Setup.measure())
 
-        print(max)
-        new_file.close()
+            if current_value > max:
+                max = current_value
+            elif max > current_value:
+                i += 1
+                if i == 5:
+                    break
 
-        return new_file
+            self.Experimental_Setup.move_table(c, 0)
+            a = float(self.Experimental_Setup.measure())
+            self.Experimental_Setup.move_table(-c, c)
+            b = float(self.Experimental_Setup.measure())
+
+            df_x = (max - a) / c
+            df_y = (max - b) / d
+
+            print(current_value, max, self.Experimental_Setup.table.x, self.Experimental_Setup.table.y)
+
+            # self.Experimental_Setup.move_table(self.df_x(self.Experimental_Setup.table.x), self.df_y(self.Experimental_Setup.table.y))
+            # current_value = float(self.Experimental_Setup.measure())
+
+            if abs(df_y) > abs(df_x):
+                pass
+            else:
+                i = 0
+                self.Experimental_Setup.move_table(c, -d)
+
+            if df_y == 0 and df_x == 0:
+                c *= 2
+                d += 2
+
+
+
+
+
+
+# процедура калибровки
 
 # массив - плоскость с разными оптическими мощностями
 motor_x = MockMotor(0)
 motor_y = MockMotor(0)
-chip = Chip('Coupler_Simulation_data')
-table = Table(motor_x, motor_y, 0, 0)
+chip = Chip('Coupler_Simulation_data_1000')
+table = Table(motor_x, motor_y, 1, 1)
 env = Environment(table, chip)
 ex_setup = Experimental_Setup(table, env)
 
 # print(chip.value(7,5))
 # print(ex_setup.measure())
 
-#print(chip.array)
-
+# print(chip.array)
+#
+#
+#
+#
+#
+#
+#
 # ex_setup.move_table(10, 10)
 # print(ex_setup.measure())
 # print(ex_setup.move_table(6, 4))
@@ -121,4 +176,5 @@ ex_setup = Experimental_Setup(table, env)
 # print(ex_setup.measure())
 
 a = Max(ex_setup, chip)
-print(a.find())
+a.find()
+
