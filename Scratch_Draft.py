@@ -147,7 +147,7 @@ dx = Converter(motor_x.rotate())
 dy = Converter(motor_y.rotate())
 
 chip = Chip('Coupler_Simulation_data_1000')
-table = Table(motor_x, motor_y, 1, 1)
+table = Table(motor_x, motor_y, dx.delta_coord(), dy.delta_coord())
 env = Environment(table, chip)
 ex_setup = Experimental_Setup(table, env)
 a = Search(ex_setup, chip)
