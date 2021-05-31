@@ -41,13 +41,19 @@ class Table:
         self.x += dx
         self.y += dy
 
-
 class MockMotor:
     def __init__(self, angle):
         self.angle = angle
 
     def rotate(self):
         return self.angle + 1
+
+class Converter:
+    def __init__(self, rotate):
+        self.rotate = rotate
+
+    def delta_coord(self):
+        return self.rotate * 0.01
 
 
 class Chip:
@@ -70,8 +76,6 @@ class Chip:
 
     def value(self, x, y):
         return self.array[y][x]
-
-
 # class check_plato:
 #     def __init__(self, Experimental_Setup, a, b):
 #         self.Experimental_Setup = Experimental_Setup
@@ -84,21 +88,10 @@ class Chip:
 #             self.Experimental_Setup.table.move_table(3, 4)
 #         else:
 #             pass
-
-
-class Max:
+class Search:
     def __init__(self, Experimental_Setup, Chip):
         self.Experimental_Setup = Experimental_Setup
         self.Chip = Chip
-
-    # def f(self, x, y):
-    #     return self.Experimental_Setup.table.x * self.Experimental_Setup.table.x + self.Experimental_Setup.table.y * self.Experimental_Setup.table.y
-    #
-    # def df_x(self, x):
-    #     return round(0.05 * self.Experimental_Setup.table.x)
-    #
-    # def df_y(self, y):
-    #     return round(0.01 * self.Experimental_Setup.table.y)
 
     def find(self):
         i = 0  # счетчик
@@ -115,19 +108,21 @@ class Max:
             if current_value > max:
                 max = current_value
             elif max > current_value:
-                i += 1
-                if i == 5:
-                    break
+                self.Experimental_Setup.move_table(1, 1)
+                if max == current_value:
+                    i += 1
+                    if i == 5:
+                        break
 
             self.Experimental_Setup.move_table(c, 0)
             a = float(self.Experimental_Setup.measure())
-            self.Experimental_Setup.move_table(-c, c)
+            self.Experimental_Setup.move_table(-c, d)
             b = float(self.Experimental_Setup.measure())
 
             df_x = (max - a) / c
             df_y = (max - b) / d
 
-            print(current_value, max, self.Experimental_Setup.table.x, self.Experimental_Setup.table.y)
+            print(current_value, max, df_y, df_x, self.Experimental_Setup.table.x, self.Experimental_Setup.table.y)
 
             # self.Experimental_Setup.move_table(self.df_x(self.Experimental_Setup.table.x), self.df_y(self.Experimental_Setup.table.y))
             # current_value = float(self.Experimental_Setup.measure())
@@ -140,23 +135,24 @@ class Max:
 
             if df_y == 0 and df_x == 0:
                 c *= 2
-                d += 2
-
-
-
+                d *= 2
 
 
 
 # процедура калибровки
-
 # массив - плоскость с разными оптическими мощностями
-motor_x = MockMotor(0)
-motor_y = MockMotor(0)
+motor_x = MockMotor(100)
+motor_y = MockMotor(100)
+dx = Converter(motor_x.rotate())
+dy = Converter(motor_y.rotate())
+
 chip = Chip('Coupler_Simulation_data_1000')
 table = Table(motor_x, motor_y, 1, 1)
 env = Environment(table, chip)
 ex_setup = Experimental_Setup(table, env)
+a = Search(ex_setup, chip)
 
+a.find()
 # print(chip.value(7,5))
 # print(ex_setup.measure())
 
@@ -175,6 +171,4 @@ ex_setup = Experimental_Setup(table, env)
 # print(ex_setup.move_table(-6, -4))
 # print(ex_setup.measure())
 
-a = Max(ex_setup, chip)
-a.find()
 
