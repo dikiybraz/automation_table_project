@@ -101,74 +101,92 @@ class Search:
 
     def find(self):
         i = 0  # счетчик
-        h = 1
+        h = 1 #
         g = 1
 
-        c = 1
-        d = 1
+        e = 1
+        f = 1
         max = float(self.Experimental_Setup.measure())
 
         while True:
-
+            self.Experimental_Setup.move_table(1, 1)
             current_value = float(self.Experimental_Setup.measure())
+            if max != current_value:
+                self.Experimental_Setup.move_table(e, 0)
+                a = float(self.Experimental_Setup.measure())
+                self.Experimental_Setup.move_table(-e, f)
+                b = float(self.Experimental_Setup.measure())
+                self.Experimental_Setup.move_table(-e, -f)
+                c = float(self.Experimental_Setup.measure())
+                self.Experimental_Setup.move_table(e, -f)
+                d = float(self.Experimental_Setup.measure())
+                self.Experimental_Setup.move_table(0, f)
 
+                df_x1 = (max - a) / e
+                df_y1 = (max - b) / f
+                df_x2 = (max - c) / e
+                df_y2 = (max - d) / f
 
-            if current_value > max:
-                self.Experimental_Setup.move_table(1, 1)
-                self.Experimental_Setup.move_table(c * 2, 2 * d)
-                max = current_value
-            elif max > current_value:
-                self.Experimental_Setup.move_table(c, d)
-                self.Experimental_Setup.move_table(-1, -1)
-                if current_value - max < -100:
-                    self.Experimental_Setup.move_table(2*c, -d)
-                    h = c - 2
-                    g = d - 2
+                if df_x1 < 0:
+                    self.Experimental_Setup.move_table(e, 0)
+                elif df_y1 < 0:
+                    self.Experimental_Setup.move_table(0, f)
+                elif df_x2 < 0:
+                    self.Experimental_Setup.move_table(-e, 0)
+                elif df_y2 < 0:
+                    self.Experimental_Setup.move_table(0, -f)
+
+            else:
+                pass
+
+            # if current_value > max:
+            #
+            #     self.Experimental_Setup.move_table(e * 2, 2 * f)
+            #     max = current_value
+            # elif max > current_value:
+            #     self.Experimental_Setup.move_table(e, f)
+            #     self.Experimental_Setup.move_table(-1, -1)
+            #     if current_value - max < -100:
+            #         self.Experimental_Setup.move_table(2*e, -f)
+            #         h = e - 2
+            #         g = f - 2
             # elif max == current_value:
-            # self.Experimental_Setup.move_table(-c*2, d)
+            #     self.Experimental_Setup.move_table(1, 1)
 
-            if c <= 0:  # если С или D = 0 ,то мы возращаем предыдущее значение
-                c = h
-            if d <= 0:
-                d = g
+            if e <= 0:  # если С или D = 0 ,то мы возращаем предыдущее значение
+                e = h
+            if f <= 0:
+                f = g
 
-            self.Experimental_Setup.move_table(c, 0)
-            a = float(self.Experimental_Setup.measure())
-            self.Experimental_Setup.move_table(-c, d)
-            b = float(self.Experimental_Setup.measure())
-
-            df_x = (max - a) / c
-            df_y = (max - b) / d
-
-            print(current_value, max, df_y, df_x, self.Experimental_Setup.table.x, self.Experimental_Setup.table.y)
+            print(current_value, max, df_y1, df_x1, self.Experimental_Setup.table.x, self.Experimental_Setup.table.y)
             if abs(self.Experimental_Setup.table.x) > 1000:
-               c = -c
+               e = -e
             if abs(self.Experimental_Setup.table.y) > 2000:
-               d = -d
+               f = -f
 
 # смена напраления в зависимости от значений df_x и df_y, а также их знаков (+ или -)
-            if 10 > df_x > 0 and 10 > df_y > 0:
-                if abs(df_y) > abs(df_x):
-                    self.Experimental_Setup.move_table(-50, -50)
-                    pass
-                elif abs(df_y) < abs(df_x):
-                    self.Experimental_Setup.move_table(50, 50)
-            elif -5 < df_x < 0 and 5 > df_y > 0:
-                self.Experimental_Setup.move_table(20, -20)
-            elif 5 > df_x > 0 and -5 < df_y < 0:
-                self.Experimental_Setup.move_table(-20, 20)
-            elif -10 < df_x < 0 and -10 < df_y < 0:
-                if abs(df_y) > abs(df_x):
-                    self.Experimental_Setup.move_table(-50, -50)
-                    pass
-                elif abs(df_y) < abs(df_x):
-                    self.Experimental_Setup.move_table(50, 50)
+#             if 10 > df_x > 0 and 10 > df_y > 0:
+#                 if abs(df_y) > abs(df_x):
+#                     self.Experimental_Setup.move_table(-50, -50)
+#                     pass
+#                 elif abs(df_y) < abs(df_x):
+#                     self.Experimental_Setup.move_table(50, 50)
+#             elif -5 < df_x < 0 and 5 > df_y > 0:
+#                 self.Experimental_Setup.move_table(20, -20)
+#             elif 5 > df_x > 0 and -5 < df_y < 0:
+#                 self.Experimental_Setup.move_table(-20, 20)
+#             elif -10 < df_x < 0 and -10 < df_y < 0:
+#                 if abs(df_y) > abs(df_x):
+#                     self.Experimental_Setup.move_table(-50, -50)
+#                     pass
+#                 elif abs(df_y) < abs(df_x):
+#                     self.Experimental_Setup.move_table(50, 50)
 
             if (df_y - df_x) == 0:
-                c *= 2
-                d *= 2
+                e *= 2
+                f *= 2
                 if current_value - max < -100:
-                    self.Experimental_Setup.move_table(c, - d)
+                    self.Experimental_Setup.move_table(e, -f)
 
 
 
