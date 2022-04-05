@@ -99,6 +99,10 @@ class Search:
         df_y1 = 0
         df_x2 = 0
         df_y2 = 0
+        x_max = 0
+        x_max1 = 0
+        y_max = 0
+        y_max1 = 0
 
         e = 1
         f = 1
@@ -113,7 +117,7 @@ class Search:
 
         while True:
             # Итерация 1: поиск первого максимума
-            self.Experimental_Setup.move_table(1, 1)
+            self.Experimental_Setup.move_table(1,1)
             # e = f = 1
             current_value = float(self.Experimental_Setup.measure())
 
@@ -148,6 +152,9 @@ class Search:
                 if a > b:
                     self.Experimental_Setup.move_table(e, 0)
                     max = float(self.Experimental_Setup.measure())
+                elif a == b:
+                    self.Experimental_Setup.move_table(e, f)
+                    max = float(self.Experimental_Setup.measure())
                 else:
                     self.Experimental_Setup.move_table(0, f)
                     max = float(self.Experimental_Setup.measure())
@@ -155,19 +162,28 @@ class Search:
                 if c > d:
                     self.Experimental_Setup.move_table(-e, 0)
                     max = float(self.Experimental_Setup.measure())
+                elif c == d:
+                    self.Experimental_Setup.move_table(-e, -f)
+                    max = float(self.Experimental_Setup.measure())
                 else:
                     self.Experimental_Setup.move_table(0, -f)
                     max = float(self.Experimental_Setup.measure())
             elif a > c and b < d or (a == c and b < d):
                 if a > d:
-                    self.Experimental_Setup.move_table(e, 0)
+                    self.Experimental_Setup.move_table(e, f)
+                    max = float(self.Experimental_Setup.measure())
+                elif a == d:
+                    self.Experimental_Setup.move_table(e, -f)
                     max = float(self.Experimental_Setup.measure())
                 else:
-                    self.Experimental_Setup.move_table(0, -f)
+                    self.Experimental_Setup.move_table(-e, -f)
                     max = float(self.Experimental_Setup.measure())
             elif (b > d and a < c) or (a == c and b > d):
                 if b > c:
                     self.Experimental_Setup.move_table(0, f)
+                    max = float(self.Experimental_Setup.measure())
+                elif c == b:
+                    self.Experimental_Setup.move_table(-e, f)
                     max = float(self.Experimental_Setup.measure())
                 else:
                     self.Experimental_Setup.move_table(-e, 0)
@@ -175,155 +191,23 @@ class Search:
             elif a == b == c == d != 0:
                 self.Experimental_Setup.move_table(-3*e, f)
                 max = float(self.Experimental_Setup.measure())
-            # if max != current_value and max < current_value:
-            #     self.Experimental_Setup.move_table(e, 0)
-            #     a = float(self.Experimental_Setup.measure())
-            #     self.Experimental_Setup.move_table(-e, f)
-            #     b = float(self.Experimental_Setup.measure())
-            #     self.Experimental_Setup.move_table(-e, -f)
-            #     c = float(self.Experimental_Setup.measure())
-            #     self.Experimental_Setup.move_table(e, -f)
-            #     d = float(self.Experimental_Setup.measure())
-            #     self.Experimental_Setup.move_table(0, f)
-            #
-            #     df_x1 = (current_value - a) / e
-            #     df_y1 = (current_value - b) / f
-            #     df_x2 = (current_value - c) / e
-            #     df_y2 = (current_value - d) / f
-            #
-            #     if df_x1 < 0:
-            #         self.Experimental_Setup.move_table(e, 0)
-            #         max = float(self.Experimental_Setup.measure())
-            #     elif df_y1 < 0:
-            #         self.Experimental_Setup.move_table(0, f)
-            #         max = float(self.Experimental_Setup.measure())
-            #     elif df_x2 < 0:
-            #         self.Experimental_Setup.move_table(-e, 0)
-            #         max = float(self.Experimental_Setup.measure())
-            #     elif df_y2 < 0:
-            #         self.Experimental_Setup.move_table(0, -f)
-            #         max = float(self.Experimental_Setup.measure())
-            #     elif a > c and b > d:
-            #         if a > b:
-            #             self.Experimental_Setup.move_table(e, 0)
-            #             max = float(self.Experimental_Setup.measure())
-            #         else:
-            #             self.Experimental_Setup.move_table(0, f)
-            #             max = float(self.Experimental_Setup.measure())
-            #     elif a < c and b < d:
-            #         if c > d:
-            #             self.Experimental_Setup.move_table(-e, 0)
-            #             max = float(self.Experimental_Setup.measure())
-            #         else:
-            #             self.Experimental_Setup.move_table(0, -f)
-            #             max = float(self.Experimental_Setup.measure())
-            #     elif a > c and b < d or (a == c and b < d):
-            #         if a > d:
-            #             self.Experimental_Setup.move_table(e, 0)
-            #             max = float(self.Experimental_Setup.measure())
-            #         else:
-            #             self.Experimental_Setup.move_table(0, -f)
-            #             max = float(self.Experimental_Setup.measure())
-            #     elif (b > d and a < c) or (a == c and b > d):
-            #         if b > c:
-            #             self.Experimental_Setup.move_table(0, f)
-            #             max = float(self.Experimental_Setup.measure())
-            #         else:
-            #             self.Experimental_Setup.move_table(-e, 0)
-            #             max = float(self.Experimental_Setup.measure())
-            # # elif max == current_value:
-            # # max = float(self.Experimental_Setup.measure())
-            # #     self.Experimental_Setup.move_table(e, 0)
-            # #     a = float(self.Experimental_Setup.measure())
-            # #     self.Experimental_Setup.move_table(-e, f)
-            # #     b = float(self.Experimental_Setup.measure())
-            # #     self.Experimental_Setup.move_table(-e, -f)
-            # #     c = float(self.Experimental_Setup.measure())
-            # #     self.Experimental_Setup.move_table(e, -f)
-            # #     d = float(self.Experimental_Setup.measure())
-            # #     self.Experimental_Setup.move_table(0, f)
-            # if (max - current_value) > 1:
-            #     max1 = float(self.Experimental_Setup.measure())
-            #     self.Experimental_Setup.move_table(e * 2, 0)
-            #     # if n <= 8 and max >= 990:
-            #     #     n = n + 1
-            #
-            #     current_value1 = float(self.Experimental_Setup.measure())
-            #
-            #     if max1 >= current_value1:
-            #         max1 = max1
-            #         # n = 0
-            #     elif max1 < current_value1:
-            #         self.Experimental_Setup.move_table(e * 2, 0)
-            #         a = float(self.Experimental_Setup.measure())
-            #         self.Experimental_Setup.move_table(-e * 2, 2*f)
-            #         b = float(self.Experimental_Setup.measure())
-            #         self.Experimental_Setup.move_table(-e * 2, -f/2)
-            #         c = float(self.Experimental_Setup.measure())
-            #         self.Experimental_Setup.move_table(e * 2, -f/2)
-            #         d = float(self.Experimental_Setup.measure())
-            #         self.Experimental_Setup.move_table(0, 2*f)
-            #
-            #         df_x1 = (current_value1 - a) / e
-            #         df_y1 = (current_value1 - b) / f
-            #         df_x2 = (current_value1 - c) / e
-            #         df_y2 = (current_value1 - d) / f
-            #
-            #         if df_x1 < 0:
-            #             self.Experimental_Setup.move_table(e * 2, 0)
-            #             max1 = float(self.Experimental_Setup.measure())
-            #         elif df_y1 < 0:
-            #             self.Experimental_Setup.move_table(0, f * 2)
-            #             max1 = float(self.Experimental_Setup.measure())
-            #         elif df_x2 < 0:
-            #             self.Experimental_Setup.move_table(-e * 2, 0)
-            #             max1 = float(self.Experimental_Setup.measure())
-            #         elif df_y2 < 0:
-            #             self.Experimental_Setup.move_table(0, -f * 2)
-            #             max1 = float(self.Experimental_Setup.measure())
-            #         elif a > c and b > d:
-            #             if a > b:
-            #                 self.Experimental_Setup.move_table(e * 2, 0)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #             else:
-            #                 self.Experimental_Setup.move_table(0, f * 2)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #         elif a < c and b < d:
-            #             if c > d:
-            #                 self.Experimental_Setup.move_table(-e * 2, 0)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #             else:
-            #                 self.Experimental_Setup.move_table(0, -f * 2)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #         elif a > c and b < d or (a == c and b < d):
-            #             if a > d:
-            #                 self.Experimental_Setup.move_table(e * 2, 0)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #             else:
-            #                 self.Experimental_Setup.move_table(0, -f * 2)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #         elif b > d and a < c:
-            #             if b > c:
-            #                 self.Experimental_Setup.move_table(0, f * 2)
-            #                 max1 = float(self.Experimental_Setup.measure())
-            #             else:
-            #                 self.Experimental_Setup.move_table(-e * 2, 0)
-            #                 max1 = float(self.Experimental_Setup.measure())
-
-
-
-            # итерация два: поиск второго максимума
 
             if (max_power - max) == 1: #если максимум долго не обновляется, то мы запускаем счетчик
                 n = n + 1
-            elif n == 1: # при его первом изменении фиксируем первый максимум и резко проверяем другую часть поля
-                self.Experimental_Setup.move_table(1, f * 45)
                 max_optic_power_1 = max_power
+                x_max = float(self.Experimental_Setup.table.x)
+                y_max = float(self.Experimental_Setup.table.y)
+            elif n == 1: # при его первом изменении фиксируем первый максимум и резко проверяем другую часть поля
+                self.Experimental_Setup.move_table(e*100, f * 100)
+                current_value = float(self.Experimental_Setup.measure())
+
             elif n > 2: # при двойном увеличении мы запускаем дополнитльный поиск вокруг текущей координаты: рассматриваются два варианта
-                if (max_power - max) >= 200:
+                if (max_power - max) >= 15:
                     # 1-й вариант: если текущее значение мощности много меньше фиксированного значения, то
                     # мы увеличиваем поле поиска в 10 раз
-                    # self.Experimental_Setup.move_table(-2*e, -2*f)
+                    e = 2
+                    f = 2
+                    self.Experimental_Setup.move_table(e, 4*f)
 
                     current_value = float(self.Experimental_Setup.measure())
 
@@ -336,6 +220,8 @@ class Search:
                     self.Experimental_Setup.move_table(10*e, -10)
                     d = float(self.Experimental_Setup.measure())
                     self.Experimental_Setup.move_table(0, 10 * f)
+                    e = 1
+                    f = 1
 
                     df_x1 = (current_value - a) / e
                     df_y1 = (current_value - b) / f
@@ -370,7 +256,10 @@ class Search:
                             max = float(self.Experimental_Setup.measure())
                     elif a > c and b < d or (a == c and b < d):
                         if a > d:
-                            self.Experimental_Setup.move_table(e, f)
+                            self.Experimental_Setup.move_table(10*e, 10*f)
+                            max = float(self.Experimental_Setup.measure())
+                        elif a == d:
+                            self.Experimental_Setup.move_table(10*e, -10*f)
                             max = float(self.Experimental_Setup.measure())
                         else:
                             self.Experimental_Setup.move_table(0, -10*f)
@@ -379,17 +268,32 @@ class Search:
                         if b > c:
                             self.Experimental_Setup.move_table(0, 10*f)
                             max = float(self.Experimental_Setup.measure())
+                        elif c == d:
+                            self.Experimental_Setup.move_table(-10*e, 10*f)
+                            max = float(self.Experimental_Setup.measure())
                         else:
                             self.Experimental_Setup.move_table(-10*e, 0)
                             max = float(self.Experimental_Setup.measure())
                     elif a == b == c == d != 0:
                         self.Experimental_Setup.move_table(-3 * e, f)
                         max = float(self.Experimental_Setup.measure())
-                elif max_power - max <= 200:
+
+                    if (max_power - current_value) >= 1000:
+                        # здесь мы проверяем есть ли резкое уменьшение текущего значения относительно новой оптической мощности (если она вообще изменилась), счетчик снова работает
+                        n = n + 1
+                        max_optic_power_2 = max_power
+                        if n > 20:
+                            # условие длительности проверки подлинности второго максимума в зависимости от количества итераций
+                            print('optic_power_maximum 1=', max_optic_power_1)
+                            print('optic_power_maximum 2=', max_optic_power_2)
+                            break
+                elif max_power - max <= 15:
                     # 2-й вариант: если текущее значение мощности имеет небольшое отклонение от фиксированного значения, то
                     # мы уменьшим поле поиска в 10 раз
+                    e = 1
+                    f = 1
 
-                    self.Experimental_Setup.move_table(-2*e, -2*f)
+                    self.Experimental_Setup.move_table(-8 * e, -f)
 
                     current_value = float(self.Experimental_Setup.measure())
 
@@ -438,6 +342,9 @@ class Search:
                         if a > d:
                             self.Experimental_Setup.move_table(e, 0)
                             max = float(self.Experimental_Setup.measure())
+                        elif a == d:
+                            self.Experimental_Setup.move_table(e, f)
+                            max = float(self.Experimental_Setup.measure())
                         else:
                             self.Experimental_Setup.move_table(0, -f)
                             max = float(self.Experimental_Setup.measure())
@@ -445,29 +352,36 @@ class Search:
                         if b > c:
                             self.Experimental_Setup.move_table(0, f)
                             max = float(self.Experimental_Setup.measure())
+                        elif c == b:
+                            self.Experimental_Setup.move_table(-e, f)
+                            max = float(self.Experimental_Setup.measure())
                         else:
                             self.Experimental_Setup.move_table(-e, 0)
                             max = float(self.Experimental_Setup.measure())
                     elif a == b == c == d != 0:
-                        self.Experimental_Setup.move_table(-3 * e, f)
+                        self.Experimental_Setup.move_table(-2 * e, f)
                         max = float(self.Experimental_Setup.measure())
 
-            if (max_power - current_value) >= 1000:
-                # здесь мы проверяем есть ли резкое уменьшение текущего значения относительно новой оптической мощности (если она вообще изменилась), счетчик снова работает
-                n = n + 1
-                max_optic_power_2 = max_power
-                if n > 100:
-                    # условие длительности проверки подлинности второго максимума в зависимости от количества итераций
-                    print('optic_power_maximum 1=', max_optic_power_1)
-                    print('optic_power_maximum 2=', max_optic_power_2)
-                    break
+                    if (max_power == current_value):
+                        max_optic_power_2 = max_power
+                        x_max1 = float(self.Experimental_Setup.table.x)
+                        y_max1 = float(self.Experimental_Setup.table.y)
+                    if (max_power - current_value) >= 1000:
+                        # здесь мы проверяем есть ли резкое уменьшение текущего значения относительно новой оптической мощности (если она вообще изменилась), счетчик снова работает
+                        n = n + 1
+                        if n > 20:
+                            # условие длительности проверки подлинности второго максимума в зависимости от количества итераций
+                            print('optic_power_maximum 1=', max_optic_power_1, 'x =', x_max, 'y=', y_max)
+                            print('optic_power_maximum 2=', max_optic_power_2, 'x =', x_max1, 'y=', y_max1)
+                            break
 
             if max >= current_value:
                 max = max
 
                 if max > max_power:
                     max_power = max
-                print('current =', current_value, 'max =', max,'x = ',self.Experimental_Setup.table.x, 'y = ', self.Experimental_Setup.table.y, 'n = ', n, max_power)
+                print('current =', current_value, 'max =', max, 'x = ', self.Experimental_Setup.table.x, 'y = ',
+                      self.Experimental_Setup.table.y, 'n =', n, max_power)
                 # print('current =', current_value, 'max =', max, 'df_x1 =', df_x1, 'df_y1 =', df_y1, 'df_x2 =', df_x2,
                 #       'df_y2 =', df_y2, 'a =', a, 'b = ', b, 'c= ', c, 'd = ', d, 'x = ',
                 #       self.Experimental_Setup.table.x, 'y = ', self.Experimental_Setup.table.y)
@@ -476,7 +390,8 @@ class Search:
 
                 if max >= max_power:
                     max_power = max
-                print('current =', current_value, 'max =', max, 'x = ', self.Experimental_Setup.table.x, 'y = ', self.Experimental_Setup.table.y, 'n = ', n, max_power)
+                print('current =', current_value, 'max =', max, 'x = ', self.Experimental_Setup.table.x, 'y = ',
+                      self.Experimental_Setup.table.y, 'n = ', n, max_power)
                 # print('current =', current_value, 'max =', max, 'df_x1 =', df_x1, 'df_y1 =', df_y1, 'df_x2 =', df_x2,
                 #       'df_y2 =', df_y2, 'a =', a, 'b = ', b, 'c= ', c, 'd = ', d, 'x = ',
                 #       self.Experimental_Setup.table.x, 'y = ', self.Experimental_Setup.table.y)
@@ -487,6 +402,7 @@ class Search:
             else:
                 e = 1
                 f = 1
+
 
 
 

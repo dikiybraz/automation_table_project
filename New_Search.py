@@ -1,13 +1,3 @@
-import sys
-
-import self as self
-from numpy.ma import sqrt
-from math import acos
-from math import radians
-import os
-import numpy as np
-
-
 class Experimental_Setup:
     def __init__(self, table, env):
         self.table = table
@@ -234,50 +224,6 @@ class Search:
                     else:
                         self.Experimental_Setup.move_table(-e, 0)
                         max2 = float(self.Experimental_Setup.measure())
-            # else:
-            #     break
-
-            # if current_value > max:
-            #
-            #     self.Experimental_Setup.move_table(e * 2, 2 * f)
-            #     max = current_value
-            # elif max > current_value:
-            #     self.Experimental_Setup.move_table(e, f)
-            #     self.Experimental_Setup.move_table(-1, -1)
-            #     if current_value - max < -100:
-            #         self.Experimental_Setup.move_table(2*e, -f)
-            #         h = e - 2
-            #         g = f - 2
-            # elif max == current_value:
-            #     self.Experimental_Setup.move_table(1, 1)
-
-            # if e <= 0:  # если С или D = 0 ,то мы возращаем предыдущее значение
-            #     e = h
-            # if f <= 0:
-            #     f = g
-
-            # if abs(self.Experimental_Setup.table.x) > 1000:
-            #     e = -e
-            # if abs(self.Experimental_Setup.table.y) > 2000:
-            #     f = -f
-
-            # смена напраления в зависимости от значений df_x и df_y, а также их знаков (+ или -)
-            #             if 10 > df_x > 0 and 10 > df_y > 0:
-            #                 if abs(df_y) > abs(df_x):
-            #                     self.Experimental_Setup.move_table(-50, -50)
-            #                     pass
-            #                 elif abs(df_y) < abs(df_x):
-            #                     self.Experimental_Setup.move_table(50, 50)
-            #             elif -5 < df_x < 0 and 5 > df_y > 0:
-            #                 self.Experimental_Setup.move_table(20, -20)
-            #             elif 5 > df_x > 0 and -5 < df_y < 0:
-            #                 self.Experimental_Setup.move_table(-20, 20)
-            #             elif -10 < df_x < 0 and -10 < df_y < 0:
-            #                 if abs(df_y) > abs(df_x):
-            #                     self.Experimental_Setup.move_table(-50, -50)
-            #                     pass
-            #                 elif abs(df_y) < abs(df_x):
-            #                     self.Experimental_Setup.move_table(50, 50)
 
             if df_y1 == df_x1 == df_y2 == df_x2 == 0:
                 e *= 1
